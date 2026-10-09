@@ -1,5 +1,4 @@
-
 User-agent: *
 Allow: /
 
-Sitemap: https://www.rasyaa.web.id/sitemap.xml
+Sitemap: https://rasyaaa.web.id/sitemap.xml
