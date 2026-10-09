@@ -5,7 +5,7 @@ const COOKIE = 'am_c'
 const TTL = 12 * 60 * 60
 
 const BAD_UA = /(httrack|wget|curl|python|requests|scrapy|aiohttp|go-http|libwww|okhttp|axios|node-fetch|undici|saveweb|webcopier|teleport|offline|downloader|sitesucker|webzip|headless|phantom|puppeteer|selenium)/i
-const GOOD_BOT = /(googlebot|google-site-verification|google-inspectiontool|bingbot|duckduckbot|facebookexternalhit|twitterbot|whatsapp|telegrambot|discordbot)/i
+const GOOD_BOT = /(googlebot|bingbot|duckduckbot|facebookexternalhit|twitterbot|whatsapp|telegrambot|discordbot)/i
 
 export const config = {
   matcher: '/((?!_vercel|favicon.ico).*)',
@@ -52,11 +52,7 @@ async function challenge() {
 export default async function middleware(req) {
   const h = req.headers
   const ua = h.get('user-agent') || ''
-  const pathname = new URL(req.url).pathname
-  const isApi = pathname.startsWith('/api/')
-
-  // Google Search Console verification and crawler discovery files must stay publicly accessible.
-  if (pathname === '/google53ad5cb1fed4e5e3.html' || pathname === '/robots.txt' || pathname === '/sitemap.xml') return NEXT()
+  const isApi = new URL(req.url).pathname.startsWith('/api/')
 
   if (BOT_KEY && h.get('x-am-key') === BOT_KEY) return NEXT()
 
