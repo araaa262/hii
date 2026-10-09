@@ -4,7 +4,11 @@ const defaults = {
   modal: 'qris.png',
   wa: 'https://whatsapp.com/channel/0029VbDPWOjFMqrdmBdXu82R',
   tiktok: 'https://www.tiktok.com/@ancklo',
-  bg: ''
+  bg: '',
+  musicUrl: '',
+  musicTitle: 'raaa music',
+  musicArtist: 'Unknown artist',
+  musicCover: ''
 }
 
 export default async function handler(req, res) {
@@ -24,7 +28,11 @@ export default async function handler(req, res) {
     modal: typeof body.modal === 'string' ? body.modal : defaults.modal,
     wa: typeof body.wa === 'string' ? body.wa : defaults.wa,
     tiktok: typeof body.tiktok === 'string' ? body.tiktok : defaults.tiktok,
-    bg: typeof body.bg === 'string' ? body.bg : defaults.bg
+    bg: typeof body.bg === 'string' ? body.bg : defaults.bg,
+    musicUrl: typeof body.musicUrl === 'string' ? body.musicUrl : defaults.musicUrl,
+    musicTitle: typeof body.musicTitle === 'string' ? body.musicTitle : defaults.musicTitle,
+    musicArtist: typeof body.musicArtist === 'string' ? body.musicArtist : defaults.musicArtist,
+    musicCover: typeof body.musicCover === 'string' ? body.musicCover : defaults.musicCover
   }
   return res.status(200).json(globalSettings)
 }
