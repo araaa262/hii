@@ -1,11 +1,11 @@
 
-const SECRET = process.env.GUARD_SECRET || ''
+const SECRET = process.env.GUARD_SECRET || 'ganti-ini-di-env-vercel'
 const BOT_KEY = process.env.BOT_KEY || ''
 const COOKIE = 'am_c'
 const TTL = 12 * 60 * 60
 
 const BAD_UA = /(httrack|wget|curl|python|requests|scrapy|aiohttp|go-http|libwww|okhttp|axios|node-fetch|undici|saveweb|webcopier|teleport|offline|downloader|sitesucker|webzip|headless|phantom|puppeteer|selenium)/i
-const GOOD_BOT = /(googlebot|google-inspectiontool|googleother|storebot-google|adsbot-google|mediapartners-google|bingbot|duckduckbot|facebookexternalhit|twitterbot|whatsapp|telegrambot|discordbot)/i
+const GOOD_BOT = /(googlebot|bingbot|duckduckbot|facebookexternalhit|twitterbot|whatsapp|telegrambot|discordbot)/i
 
 export const config = {
   matcher: '/((?!_vercel|favicon.ico).*)',
@@ -53,10 +53,6 @@ export default async function middleware(req) {
   const h = req.headers
   const ua = h.get('user-agent') || ''
   const isApi = new URL(req.url).pathname.startsWith('/api/')
-
-  // Allow Google Search Console's static HTML verification file without a bot challenge.
-  const pathname = new URL(req.url).pathname
-  if (req.method === 'GET' && pathname === '/google53ad5cb1fed4e5e3.html') return NEXT()
 
   if (BOT_KEY && h.get('x-am-key') === BOT_KEY) return NEXT()
 

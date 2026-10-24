@@ -232,33 +232,16 @@ body{
 .m{font-family:'JetBrains Mono',monospace}
 
 
-/* ================================
-   LIVE THEME LAB + WEB TERMINAL
-   Visual-only controls; app logic unchanged.
-   ================================ */
+/* Theme Lab */
 .theme-lab{margin:10px 0 14px;background:#fff;border:2px solid #050505;border-radius:6px;box-shadow:6px 6px 0 #050505;padding:12px;font-family:'JetBrains Mono',monospace;color:#050505}
 .theme-lab-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
 .theme-dot{width:12px;height:12px;border:2px solid #050505;background:var(--neo-blue);display:inline-block}
 .theme-swatches{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-bottom:10px}
 .theme-swatch{height:30px;border:2px solid #050505;box-shadow:3px 3px 0 #050505;cursor:pointer;transition:transform .3s var(--neo-ease),box-shadow .2s}
 .theme-swatch:hover{transform:translate(-2px,-2px) rotate(-2deg);box-shadow:5px 5px 0 #050505}
-.theme-swatch:active{transform:translate(2px,2px);box-shadow:0 0 0 #050505}
 .theme-custom{display:flex;align-items:center;gap:8px}
 .theme-custom label{font-size:10px;font-weight:700;flex:1}
 #themeColor{width:42px;height:32px;padding:0;border:2px solid #050505;background:#fff;cursor:pointer}
-.web-terminal{background:#050505;color:#fff;border:2px solid #050505;border-radius:4px;box-shadow:5px 5px 0 var(--neo-blue);overflow:hidden;font-family:'JetBrains Mono',monospace}
-.web-terminal-bar{height:28px;display:flex;align-items:center;gap:6px;padding:0 8px;border-bottom:2px solid #fff;background:#111}
-.web-terminal-bar i{width:8px;height:8px;border:1px solid #fff;display:block}
-.web-terminal-title{margin-left:auto;font-size:9px;opacity:.7;text-transform:uppercase}
-.web-terminal-out{height:92px;overflow:auto;padding:8px;font-size:10px;line-height:1.55}
-.web-terminal-out .ok{color:var(--neo-blue-2)}
-.web-terminal-out .cmd{color:var(--neo-yellow)}
-.web-terminal-form{display:flex;border-top:2px solid #fff}
-.web-terminal-form span{padding:7px 7px;color:var(--neo-blue-2);font-weight:700}
-#themeTerminal{min-width:0;flex:1;border:0;outline:0;background:#050505;color:#fff;padding:7px 7px;font:10px 'JetBrains Mono',monospace}
-#themeTerminal::placeholder{color:#777}
-@media(min-width:700px){.theme-lab{padding:14px}.web-terminal-out{height:105px}}
-
 /* Terminal-inspired header */
 header{
   background:#fff;
@@ -372,6 +355,9 @@ header{
 .card h2,.card h3{color:#050505;font-weight:800}
 .sub{color:#555}
 
+.mode-switch{display:flex;gap:8px;margin:18px 0 12px}
+.mode-option{flex:1;padding:11px 14px;border:2px solid #050505;border-radius:5px;background:#fff;color:#050505;font-weight:800;box-shadow:3px 3px 0 #050505;cursor:pointer}
+.mode-option.active{background:var(--neo-blue);color:#fff;transform:translate(-1px,-1px);box-shadow:4px 4px 0 #050505}
 /* Search field */
 .field{
   background:#fff;
@@ -753,13 +739,7 @@ header{
         <button class="theme-swatch" type="button" title="Orange" data-theme="orange" style="background:#ff6b00"></button>
       </div>
       <div class="theme-custom"><label for="themeColor">CUSTOM PRIMARY</label><input id="themeColor" type="color" value="#145cff" aria-label="Pilih warna utama"></div>
-      <div class="web-terminal" style="margin-top:10px">
-        <div class="web-terminal-bar"><i></i><i></i><i></i><span class="web-terminal-title">theme-terminal</span></div>
-        <div class="web-terminal-out" id="themeTerminalOut"><div class="ok">raaa@web:~$ help</div><div>ra theme · ra color · ra logo · ra modal · ra link · ra background · ra status · ra clear · ra reset</div></div>
-        <form class="web-terminal-form" id="themeTerminalForm"><span>&gt;_</span><input id="themeTerminal" autocomplete="off" spellcheck="false" placeholder="theme pink" aria-label="Perintah theme"></form>
-      </div>
-    </div>
-</div></div>
+    </div></div>
 </div></header>
 
 
@@ -802,8 +782,8 @@ header{
 <main>
   <div class="w hero">
     <span class="pill"><span class="dot"></span>Gratis, tanpa login, tanpa iklan</span>
-    <h1 class="d">Cari preset Am cuma lewat Url</h1>
-    <p>Tinggal tempel link TikTok, YouTube, atau Instagram-nya. Deskripsi, bio, komentar sampai balasan bakal dicek satu-satu buat nyari link preset 5mb dan XML.</p>
+    <h1 class="d">Cari preset AM lewat link atau kata kunci</h1>
+    <p>Tempel link TikTok, YouTube, atau Instagram untuk memindai langsung. Atau pilih pencarian kata kunci untuk menemukan video preset, lalu cek link preset yang tersedia.</p>
   </div>
 
   <section id="cari" class="w">
@@ -812,8 +792,12 @@ header{
         <span class="ic"><svg width="22" height="22"><use href="#i-search"/></svg></span>
         <div style="min-width:0;flex:1"><h2>Url nya</h2><p class="sub"><span class="dot"></span>Bisa url dari tiktok, youtube, atau instagram (versi aplikasi maupun web)</p></div>
       </div>
+      <div class="mode-switch" role="group" aria-label="Mode pencarian">
+        <button type="button" class="mode-option active" data-mode="link">Link video</button>
+        <button type="button" class="mode-option" data-mode="keyword">Kata kunci</button>
+      </div>
       <div class="field">
-        <input id="u" type="url" inputmode="url" placeholder="Link TikTok, YouTube, atau Instagram" autocomplete="off" autocapitalize="off" spellcheck="false">
+        <input id="u" type="text" inputmode="url" placeholder="Link TikTok, YouTube, atau Instagram" autocomplete="off" autocapitalize="off" spellcheck="false">
         <button class="ib hid" id="cl" aria-label="Hapus" data-s="hid"><span class="mi"><svg data-st="hid" viewBox="0 0 24 24"><use href="#i-paste"/></svg><svg data-st="idle" viewBox="0 0 24 24"><use href="#i-x"/></svg></span></button>
         <button class="ib" id="pc" aria-label="Tempel" data-s="idle"><span class="mi"><svg data-st="idle" viewBox="0 0 24 24"><use href="#i-paste"/></svg><svg data-st="ok" viewBox="0 0 24 24"><use href="#i-ok"/></svg><svg data-st="err" viewBox="0 0 24 24"><use href="#i-x"/></svg></span></button>
       </div>
@@ -868,6 +852,17 @@ const setNav=k=>{const L=[...document.querySelectorAll('.bn a')];L.forEach(a=>a.
 ['cari','hasil','info'].forEach(id=>{new IntersectionObserver(es=>es.forEach(e=>e.isIntersecting&&setNav(id)),{rootMargin:'-40% 0px -50% 0px'}).observe(document.getElementById(id))});
 
 const flash=(b,st,ms=1700)=>{clearTimeout(b._t);b.dataset.s=st;b._t=setTimeout(()=>b.dataset.s='idle',ms)};
+let searchMode='link';
+document.querySelectorAll('.mode-option').forEach(btn=>btn.addEventListener('click',()=>{searchMode=btn.dataset.mode;document.querySelectorAll('.mode-option').forEach(x=>x.classList.toggle('active',x===btn));u.type='text';u.inputMode=searchMode==='link'?'url':'search';u.placeholder=searchMode==='link'?'Link TikTok, YouTube, atau Instagram':'Contoh: preset jedag jedug';u.value='';u.oninput();}));
+function renderKeyword(j){
+  const results=j.hasil_pencarian||[], scanned=j.semua_hasil_dipindai||[];
+  const byUrl=new Map(scanned.map(x=>[x.url,x]));
+  let h=`<div class="stitle"><b class="d">Hasil pencarian</b><span class="badge">${results.length}</span></div>`;
+  if(!results.length){out.innerHTML='<div class="card empty"><h3>Belum ada video ditemukan</h3><p>Coba kata kunci lain yang lebih spesifik.</p></div>';return}
+  h+='<div class="card">'+results.map((x,i)=>{const scan=byUrl.get(x.url_video),data=scan&&scan.data,links=data&&data.link_preset||[];return `<div class="pre"><div class="th" ${x.thumbnail?`style="background-image:url(\'${esc(x.thumbnail)}\')"`:''}>${x.thumbnail?'':'VIDEO'}</div><div class="pb"><h3 class="d">${esc(x.snippet_caption||x.handle||('Video '+(i+1)))}</h3><div class="chips" style="margin:8px 0 0"><span class="chip hi">${esc(x.handle||'Video')}</span>${x.views?`<span class="chip">${num(x.views)} views</span>`:''}${links.length?`<span class="chip">${links.length} preset</span>`:'<span class="chip">Belum ada preset terdeteksi</span>'}</div><p class="m">${esc(x.url_video||'')}</p><div class="act"><a class="btn p" href="${esc(x.url_video||'#')}" target="_blank" rel="noopener">Buka video</a>${links.map((url,k)=>`<a class="btn o" href="${esc(url)}" target="_blank" rel="noopener">Preset ${k+1}</a>`).join('')}</div>${scan&&scan.error?`<p class="err">Pemindaian: ${esc(scan.error)}</p>`:''}</div></div>`}).join('')+'</div>';
+  out.innerHTML=h;
+}
+
 u.oninput=()=>{const c=$('#cl');c.classList.toggle('hid',!u.value);c.dataset.s=u.value?'idle':'hid'};
 $('#cl').onclick=()=>{u.value='';u.oninput();u.focus()};
 $('#pc').onclick=async()=>{const b=$('#pc');try{u.value=(await navigator.clipboard.readText()).trim();u.oninput();flash(b,'ok',1200);if(u.value)search()}catch{flash(b,'err',1400);u.focus();toast('Clipboard nggak diizinkan, tempel manual aja ya',1)}};
@@ -876,14 +871,23 @@ out.onclick=e=>{const b=e.target.closest('[data-c]');if(b){copy(links[b.dataset.
 
 async function search(){
   const v=u.value.trim();if(!v){const f=document.querySelector('.field');f.classList.remove('sh');void f.offsetWidth;f.classList.add('sh');return u.focus()}
+  if(searchMode==='keyword'&&v.length<3){toast('Kata kunci minimal 3 karakter ya',1);return u.focus()}
+  if(searchMode==='link'&&!/(tiktok\.com|youtu\.be|youtube\.com|instagram\.com|instagr\.am)/i.test(v)){toast('Masukkan link TikTok, YouTube, atau Instagram',1);return u.focus()}
   const b=$('#go');clearTimeout(b._t);b.dataset.s='busy';
-  out.innerHTML='<div class="card empty"><span class="ic"><span class="dot live"></span></span><h3>Lagi ngecek videonya…</h3><p>Deskripsi, bio, komentar, sama balasan lagi dicek satu-satu. Bisa sampai setengah menit, sabar ya.</p></div>';
+  out.innerHTML=`<div class="card empty"><span class="ic"><span class="dot live"></span></span><h3>${searchMode==='keyword'?'Lagi mencari video preset…':'Lagi ngecek videonya…'}</h3><p>${searchMode==='keyword'?'Mencari video berdasarkan kata kunci dan memeriksa beberapa hasil untuk menemukan link preset.':'Deskripsi, bio, komentar, sama balasan lagi dicek satu-satu. Sabar ya.'}</p></div>`;
   try{
-    const r=await fetch('/api/find?url='+encodeURIComponent(v)),t=await r.text();let j;try{j=JSON.parse(t)}catch{throw new Error(r.status===404||/not found/i.test(t)?'Server-nya belum nemu /api/find. Pastikan project di-deploy ke Vercel lengkap sama folder api/-nya ya.':'Server ngasih respon aneh, coba lagi ya')}
-    if(!j.ok)throw new Error(j.error||'Ada yang error, coba lagi ya');
-    render(j);history.replaceState(null,'','?url='+encodeURIComponent(v));
-    const n=j.presets.length;toast(n?`${n} preset ketemu!`:'Yah, presetnya nggak ketemu',!n);
-    if(n){$('#gok').textContent=`${n} preset ketemu!`;flash(b,'ok')}else{$('#gerr').textContent='Nggak ketemu';flash(b,'err')}
+    const endpoint=searchMode==='keyword'?'/api/search?q=':'/api/find?url=';
+    const r=await fetch(endpoint+encodeURIComponent(v)),t=await r.text();let j;try{j=JSON.parse(t)}catch{throw new Error(r.status===404||/not found/i.test(t)?'API belum tersedia. Pastikan folder api/ ikut di-deploy.':'Server ngasih respon aneh, coba lagi ya')}
+    if(!r.ok||j.ok===false)throw new Error(j.error||'Ada yang error, coba lagi ya');
+    if(searchMode==='keyword'){
+      renderKeyword(j);history.replaceState(null,'','?q='+encodeURIComponent(v));
+      const n=j.total_link_preset||0;toast(`${j.total_hasil||0} video ditemukan · ${n} link preset`,!n);
+      if(n){$('#gok').textContent=`${n} preset ketemu!`;flash(b,'ok')}else{$('#gerr').textContent='Nggak ketemu';flash(b,'err')}
+    }else{
+      render(j);history.replaceState(null,'','?url='+encodeURIComponent(v));
+      const n=j.presets.length;toast(n?`${n} preset ketemu!`:'Yah, presetnya nggak ketemu',!n);
+      if(n){$('#gok').textContent=`${n} preset ketemu!`;flash(b,'ok')}else{$('#gerr').textContent='Nggak ketemu';flash(b,'err')}
+    }
   }catch(e){out.innerHTML='<div class="card empty"><span class="ic err"><svg width="26" height="26"><use href="#i-info"/></svg></span><h3>Yah, gagal</h3><p class="err">'+esc(e.message)+'</p></div>';toast(e.message,1);$('#gerr').textContent='Yah, gagal';flash(b,'err')}
 }
 
@@ -941,8 +945,9 @@ function render(j){
   rv(out.querySelector('.vid>div:last-child'),fr,0);rv(st,fr,120);
   out.querySelectorAll('.pre,.card.empty').forEach((e,i)=>{rv(e,pr,220+i*90);pr=e});
 }
-const q=new URLSearchParams(location.search).get('url'),rl=performance.getEntriesByType?.('navigation')[0]?.type==='reload';
-if(q&&rl)history.replaceState(null,'',location.pathname);
+const params=new URLSearchParams(location.search),q=params.get('url'),k=params.get('q'),rl=performance.getEntriesByType?.('navigation')[0]?.type==='reload';
+if((q||k)&&rl)history.replaceState(null,'',location.pathname);
+else if(k){document.querySelector('[data-mode=keyword]').click();u.value=k;u.oninput();search()}
 else if(q){u.value=q;u.oninput();search()}
 </script>
 <div id="ig" role="dialog" aria-modal="true" aria-label="Dukung raaa Finder"><div class="igb"><div class="igl"><i></i></div><div class="igi">
@@ -1034,8 +1039,7 @@ addEventListener('keydown',e=>e.key==='Escape'&&close());
     if(save)localStorage.setItem('raaa-theme',key);
     return t.name;
   };
-  const out=document.querySelector('#themeTerminalOut'),form=document.querySelector('#themeTerminalForm'),input=document.querySelector('#themeTerminal');
-  const log=(line,cls='')=>{if(!out)return;const d=document.createElement('div');d.className=cls;d.textContent=line;out.appendChild(d);out.scrollTop=out.scrollHeight};
+  const log=()=>{};
   const storeKey='raaa-live-settings';
   const defaults={logo:'',modal:'qris.png',wa:'https://whatsapp.com/channel/0029VbDPWOjFMqrdmBdXu82R',tiktok:'https://www.tiktok.com/@ancklo',bg:'',musicUrl:'',musicTitle:'raaa music',musicArtist:'Unknown artist',musicCover:''};
   let settings={...defaults},globalSettings={...defaults};
@@ -1098,71 +1102,6 @@ addEventListener('keydown',e=>e.key==='Escape'&&close());
   };
   document.querySelectorAll('.theme-swatch').forEach(b=>b.addEventListener('click',()=>{const k=b.dataset.theme;setTheme(k);log('> theme '+k,'cmd');log('local theme applied: '+presets[k].name,'ok')}));
   document.querySelector('#themeColor')?.addEventListener('input',e=>{setTheme(e.target.value);log('> color '+e.target.value,'cmd');log('local color applied','ok')});
-  form?.addEventListener('submit',async e=>{
-    e.preventDefault();const raw=input.value.trim();if(!raw)return;log('> '+raw,'cmd');
-    const parts=raw.split(/\s+/),cmd=parts.shift().toLowerCase(),arg=parts.join(' ').trim();
-    // Local commands use the command name directly: `logo`, `music`, `reset`.
-    // Global commands use only the `global` prefix: `global logo`, `global music`.
-    const isGlobal=cmd==='global';
-    const actual=isGlobal?(parts.shift()?.toLowerCase()||''):cmd;
-    const actualArg=isGlobal?parts.join(' ').trim():arg;
-    const apply=async(key,value)=>{if(isGlobal){await setGlobal(key,value)}else setLocal(key,value)};
-    try{
-      if((actual==='theme'||actual==='color')&&(!isGlobal||isGlobal) && (actual==='theme'?presets[actualArg.toLowerCase()]:/^#[0-9a-f]{6}$/i.test(actualArg))){
-        if(actual==='theme'){if(isGlobal){/* global visual theme remains local by design; save via separate theme key below */localStorage.setItem('raaa-global-theme',actualArg.toLowerCase());setTheme(actualArg.toLowerCase(),false)}else setTheme(actualArg.toLowerCase())}
-        else {setTheme(actualArg);if(!isGlobal)localStorage.setItem('raaa-theme',actualArg)}
-        log((isGlobal?'global':'local')+' '+actual+' applied','ok');
-      } else if(actual==='logo'&&(actualArg==='reset'||validUrl(actualArg))){await apply('logo',actualArg==='reset'?'':actualArg);log((isGlobal?'global ':'')+(actualArg==='reset'?'logo reset':'logo updated'),'ok')}
-      else if(actual==='modal'&&(actualArg==='reset'||validUrl(actualArg))){await apply('modal',actualArg==='reset'?defaults.modal:actualArg);log((isGlobal?'global ':'')+'modal updated','ok')}
-      else if(actual==='link'){
-        const p=actualArg.split(/\s+/),sub=(p.shift()||'').toLowerCase(),url=p.join(' ').trim();
-        if((sub==='wa'||sub==='whatsapp'||sub==='tiktok')&&validUrl(url)){await apply(sub==='tiktok'?'tiktok':'wa',url);log((isGlobal?'global ':'')+sub+' link updated','ok')}
-        else log('usage: link wa <url> | link tiktok <url>','err')
-      }
-      else if(actual==='background'&&(actualArg==='reset'||validUrl(actualArg))){await apply('bg',actualArg==='reset'?'':actualArg);log((isGlobal?'global ':'')+(actualArg==='reset'?'background reset':'background updated'),'ok')}
-      else if(actual==='music'){
-        const p=actualArg.split(/\s+/),sub=(p.shift()||'').toLowerCase(),value=p.join(' ').trim();
-        if((!sub||sub==='url')&&(value==='reset'||validUrl(value))){await apply('musicUrl',value==='reset'?'':value);log((isGlobal?'global ':'')+(value==='reset'?'music reset':'music URL updated'),'ok')}
-        else if(sub==='title'&&value){await apply('musicTitle',value);log((isGlobal?'global ':'')+'music title updated','ok')}
-        else if(sub==='artist'&&value){await apply('musicArtist',value);log((isGlobal?'global ':'')+'music artist updated','ok')}
-        else if(sub==='cover'&&(value==='reset'||validUrl(value))){await apply('musicCover',value==='reset'?'':value);log((isGlobal?'global ':'')+'music cover updated','ok')}
-        else log('usage: music <mp3-url> | music title <text> | music artist <text> | music cover <image-url>','err')
-      }
-      else if(actual==='status'&&!isGlobal){log('scope: local');log('theme: '+(document.querySelector('#themeName')?.textContent||'unknown'));log('logo: '+(settings.logo?'custom':'default'));log('modal: '+(settings.modal?'custom/default':'none'));log('background: '+(settings.bg?'custom':'default'))}
-      else if(actual==='clear'&&!isGlobal){out.innerHTML=''}
-      else if(actual==='reset'){
-        // Reset ALWAYS clears both local and global customization, regardless of `ra`/`raa`.
-        localStorage.removeItem(storeKey);
-        localStorage.removeItem('raaa-theme');
-        localStorage.removeItem('raaa-global-theme');
-        settings={...defaults};
-        globalSettings={...defaults};
-        try{await pushGlobal({...defaults})}catch{}
-        setTheme('blue',false);
-        applySettings(false);
-        log('all settings reset — local + global','ok');
-      }
-      else if(actual==='help'&&!isGlobal){
-        log('theme blue | pink | purple | lime | orange');
-        log('color #RRGGBB');
-        log('logo <image-url> | logo reset');
-        log('modal <image-url> | modal reset');
-        log('link wa <url> | link tiktok <url>');
-        log('background <image-url> | background reset');
-        log('music <mp3-url> | music reset');
-        log('music title <text> | artist <text> | cover <image-url>');
-        log('status | clear | reset');
-        log('global logo <image-url> | global logo reset');
-        log('global modal <image-url> | global modal reset');
-        log('global link wa <url> | global link tiktok <url>');
-        log('global background <image-url> | global background reset');
-        log('global music <mp3-url> | global music reset');
-        log('global music title <text> | artist <text> | cover <image-url>');
-      }
-      else log('command not found — type help','err')
-    }catch(err){log((isGlobal?'global ':'')+'update failed: '+err.message,'err')}
-    input.value='';
-  });
   const saved=localStorage.getItem('raaa-theme');if(saved&&(presets[saved]||/^#[0-9a-f]{6}$/i.test(saved)))setTheme(saved,false);
   applySettings(false);loadGlobal();
 })();

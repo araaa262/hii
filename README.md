@@ -1,11 +1,17 @@
 # AM Preset Finder
-Deploy ke Vercel: `vercel --prod` (atau import repo). Tanpa build step, dependency cuma cheerio.
-- `public/index.html` frontend
-- `api/find.js` scraper (GET /api/find?url=<link tiktok / youtube / instagram>)
-- `api/_ig.js` caption Instagram, `api/_snapsave.js` video Instagram, `api/_snaptik.js` video TikTok, `api/_y2.js` video YouTube
 
-## Anti-bot (invisible)
-- `middleware.js` di root: blok UA scraper (403) + cookie JS invisible, tanpa widget.
-- Env Vercel (Settings → Environment Variables):
-  - `GUARD_SECRET` = string acak panjang (WAJIB diganti)
-  - `BOT_KEY` = (opsional) kirim header `x-am-key: <nilai>` kalau bot kamu mau akses `/api/find`
+Deploy ke Vercel: import repository atau jalankan `vercel --prod`.
+
+- `public/index.html` — frontend website.
+- `api/find.js` — pemindaian link video.
+- `api/search.js` — endpoint pencarian kata kunci (`/api/search?q=...`).
+- `api/_amfinder.js` — modul scraper pencarian kata kunci dengan ES Modules, mengikuti pola file API lainnya.
+- `api/_*.js` — helper scraper.
+
+Pencarian kata kunci berjalan langsung dari fungsi API; tidak memakai file `.cjs`, `child_process`, atau terminal di website.
+
+Contoh: `GET /api/search?q=preset%20jedag%20jedug`
+
+Pencarian memindai hingga 3 video teratas. Ketersediaan tetap mengikuti API dan proteksi situs `amfinder.web.id`.
+
+Node.js 20+; jalankan `npm install` sebelum deploy.
